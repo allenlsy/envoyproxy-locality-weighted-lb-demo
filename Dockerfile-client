@@ -1,0 +1,9 @@
+FROM envoyproxy/envoy-dev:latest
+
+COPY ./envoy-client.yaml /etc/envoy-config.yaml
+
+RUN chmod go+r /etc/envoy-config.yaml
+RUN apt-get update && apt-get install -y bash curl
+SHELL ["/bin/bash", "-c"]
+
+CMD ["/usr/local/bin/envoy", "-c", "/etc/envoy-config.yaml", "--service-node", "${HOSTNAME}", "--service-cluster", "client", "-l", "debug"]
