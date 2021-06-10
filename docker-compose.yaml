@@ -4,9 +4,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-client
-    # image: curlimages/curl
-    # command: sleep 10000
     hostname: client
+    ports:
+      - 8001:8001
     networks:
       - envoymesh
   backend-local-1:

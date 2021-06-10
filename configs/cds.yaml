@@ -1,0 +1,58 @@
+resources:
+- "@type": type.googleapis.com/envoy.config.cluster.v3.Cluster
+  name: backend
+  type: STRICT_DNS
+  lb_policy: ROUND_ROBIN
+  health_checks:
+    - interval: 3s
+      timeout: 1s
+      unhealthy_threshold: 3
+      healthy_threshold: 1
+      http_health_check:
+        path: "/"
+      no_traffic_interval: 20s
+  load_assignment:
+    cluster_name: backend
+    endpoints:
+    - locality:
+        region: local
+        zone: zone-1
+      load_balancing_weight: 50
+      priority: 0 # highest
+      lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: bk-local-1
+                port_value: 8000
+            health_check_config:
+              port_value: 8000
+            hostname: bk-local-1
+    - locality:
+        region: local
+        zone: zone-2
+      load_balancing_weight: 25
+      priority: 1 # highest
+      lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: bk-local-2
+                port_value: 8000
+            health_check_config:
+              port_value: 8000
+            hostname: bk-local-2
+    - locality:
+        region: remote
+        zone: zone-1
+      load_balancing_weight: 25
+      priority: 1 # highest
+      lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: bk-remote
+                port_value: 8000
+            health_check_config:
+              port_value: 8000
+            hostname: bk-remote
