@@ -32,7 +32,7 @@ resources:
         region: local
         zone: zone-2
       load_balancing_weight: 25
-      priority: 1 # highest
+      priority: 1
       lb_endpoints:
         - endpoint:
             address:
@@ -46,7 +46,7 @@ resources:
         region: remote
         zone: zone-1
       load_balancing_weight: 25
-      priority: 1 # highest
+      priority: 1
       lb_endpoints:
         - endpoint:
             address:
